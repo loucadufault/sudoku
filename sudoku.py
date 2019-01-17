@@ -1,6 +1,6 @@
 digits = list(range(10))
 letters = 'abcdefghi'
-blocks = {'a':(0,0), 'b':(3,0), 'c':(6,0), 'd':(0,3), 'e':(3,3), 'f':(6,3), 'g':(6,0), 'h':(3,6), 'i':(6,6)}
+boxes = {'a':(0,0), 'b':(3,0), 'c':(6,0), 'd':(0,3), 'e':(3,3), 'f':(6,3), 'g':(6,0), 'h':(3,6), 'i':(6,6)}
 
 #		 0 1 2 3 4 5 6 7 8
 input =[[5,1,7,6,0,0,0,3,4], #0
@@ -30,31 +30,20 @@ def elim_from_row(row, value):
 	for i_col in range(9):
 		cells[row][i_col].remove_possible(value)	
 
-def elim_from_block(block, value):
-	coords = blocks[block]
+def elim_from_box(box, value):
+	coords = boxes[box]
 	col = coords[0] #3
 	row = coords[1] #0
 	for i_row in range(row, row+3):
 		for i_col in range(col, col+3):
 			cells[i_row][i_col].remove_possible(value)
-	
-# 0 1 2 3 4 5 6 7 8 9
-# 1
-# 2
-# 3
-# 4
-# 5
-# 6
-# 7
-# 8
-# 9
 
 class Cell():
 	def __init__(self, col, row, value):
 		self.value = value
 		self.col = col
 		self.row = row
-		self.block = self.get_block()
+		self.box = self.get_box()
 		self.possibles = digits
 
 	def get_possibles():
@@ -63,8 +52,8 @@ class Cell():
 	def set_value(value):
 		self.value = value
 
-	def get_block():
-		for key, val in blocks.items():
+	def get_box():
+		for key, val in boxes.items():
 			if ((self.col > val[0]) and (self.col < val[0]+3)) and ((self.row > val[1]) and (self.row < val[1]+3)):
 				return key
 
@@ -84,7 +73,7 @@ class Cell():
 	def propagate():
 		elim_from_col(self.col, self.value)
 		elim_from_row(self.row, self.value)
-		elim_from_block(self.block, self.value)
+		elim_from_box(self.box, self.value)
 
 	def __str__():
 		return "{}{}".format(letters[self.col], self.row)
