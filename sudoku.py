@@ -1,6 +1,8 @@
+import time
+
 digits = list(range(10))
 letters = 'abcdefghi'
-boxes = {'a':(0,0), 'b':(3,0), 'c':(6,0), 'd':(0,3), 'e':(3,3), 'f':(6,3), 'g':(6,0), 'h':(3,6), 'i':(6,6)}
+boxes = {'a':(0,0), 'b':(3,0), 'c':(6,0), 'd':(0,3), 'e':(3,3), 'f':(6,3), 'g':(0,6), 'h':(3,6), 'i':(6,6)}
 
 #		 0 1 2 3 4 5 6 7 8
 input =[[5,1,7,6,0,0,0,3,4], #0
@@ -14,6 +16,12 @@ input =[[5,1,7,6,0,0,0,3,4], #0
 		[0,0,0,0,0,0,0,0,0]] #8
 
 cells = []
+
+def view_possibles():
+	for i_row in range(9):
+		for i_col in range(9):
+			cell = cells[i_row][i_col]
+			print(str(cell) + ": " + str(cell.possibles))
 
 def create_cells(input):
 	for i_row in range(9):
@@ -49,19 +57,12 @@ class Cell():
 	def __str__(self):
 		return "{}{}".format(letters[self.col], self.row+1)
 
-	def __repr__(self):
-		return str(self.value)
-
-	def get_possibles(self):
-		return self.possibles
-
 	def set_value(self, value):
 		self.value = value
 
 	def get_box(self):
 		for key, val in boxes.items():
 			if ((self.col >= val[0]) and (self.col < val[0]+3)) and ((self.row >= val[1]) and (self.row < val[1]+3)):
-				print('made box')
 				return key
 
 	def remove_possible(self, value):
@@ -110,8 +111,8 @@ def draw(cells):
 		print(str(i_row+1) + '  ', end='')
 		for i_col in range(9):
 			cell = cells[i_row][i_col]
-			print(' {}'.format(cell.box), end='')
-			#print(' {}'.format(cell.value if cell.value else ' '), end='')
+			#print(' {}'.format(cell.box), end='')
+			print(' {}'.format(cell.value if cell.value else ' '), end='')
 			if (i_col==2 or i_col==5):
 				print(' |', end='')
 		if (i_row==2 or i_row==5):
@@ -138,6 +139,8 @@ def main():
 	create_cells(input)
 	draw(cells)
 	while not is_solved(cells):
+		view_possibles()
+		time.sleep(10)
 		basic()
 		draw(cells)
 	print('solved')
