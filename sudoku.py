@@ -17,7 +17,7 @@ cells = []
 
 def create_cells(input):
 	for i_row in range(9):
-		objects.append([])
+		cells.append([])
 		for i_col in range(9):
 			cell = Cell(i_col, i_row, input[i_row][i_col])
 			cells[i_row].append(cell)
@@ -46,18 +46,25 @@ class Cell():
 		self.box = self.get_box()
 		self.possibles = digits
 
-	def get_possibles():
+	def __str__(self):
+		return "{}{}".format(letters[self.col], self.row+1)
+
+	def __repr__(self):
+		return str(self.value)
+
+	def get_possibles(self):
 		return self.possibles
 
-	def set_value(value):
+	def set_value(self, value):
 		self.value = value
 
-	def get_box():
+	def get_box(self):
 		for key, val in boxes.items():
-			if ((self.col > val[0]) and (self.col < val[0]+3)) and ((self.row > val[1]) and (self.row < val[1]+3)):
+			if ((self.col >= val[0]) and (self.col < val[0]+3)) and ((self.row >= val[1]) and (self.row < val[1]+3)):
+				print('made box')
 				return key
 
-	def remove_possible(value):
+	def remove_possible(self, value):
 		if value in self.possibles:
 			(self.possibles).remove(value) #prolly wrong
 			print('value removed')
@@ -70,14 +77,31 @@ class Cell():
 		# elif len(self.possibles) < 1:
 		# 	print('impossible')
 
-	def propagate():
+	def propagate(self):
 		elim_from_col(self.col, self.value)
 		elim_from_row(self.row, self.value)
 		elim_from_box(self.box, self.value)
 
-	def __str__():
-		return "{}{}".format(letters[self.col], self.row)
+	def elim_by_col(self):
+		for i_row in range(9):
+			compare = cells[i_row][self.col]
+			self.remove_possible(compare.value)
 
+	def elim_by_row(self):
+		for i_col in range(9):
+			compare = cells[self.row][i_col]
+			self.remove_possible(compare.value)
+
+	def elim_by_box(self):
+		draw(cells)
+		print(self.box)
+		coords = boxes[self.box]
+		col = coords[0] #3
+		row = coords[1] #0
+		for i_row in range(row, row+3):
+			for i_col in range(col, col+3):
+				compare = cells[i_row][i_col]
+				self.remove_possible(compare.value)
 
 def draw(cells):
 	horizon_div = '------+-------+------'
@@ -86,13 +110,38 @@ def draw(cells):
 		print(str(i_row+1) + '  ', end='')
 		for i_col in range(9):
 			cell = cells[i_row][i_col]
-			print(' {}'.format(cell if cell else ' '), end='')
+			print(' {}'.format(cell.box), end='')
+			#print(' {}'.format(cell.value if cell.value else ' '), end='')
 			if (i_col==2 or i_col==5):
 				print(' |', end='')
 		if (i_row==2 or i_row==5):
 			print('\n    '+horizon_div, end='')
 		print('')
 
-draw(input)
-		
+def is_solved(cells):
+	for i_row in range(9):
+		for i_col in range(9):
+			cell = cells[i_row][i_col]
+			if not (cell.value):
+				return False
+	return True
+
+def basic():
+	for i_row in range(9):
+		for i_col in range(9):
+			cell = cells[i_row][i_col]
+			cell.elim_by_col()
+			cell.elim_by_row()
+			cell.elim_by_box()
+
+def main():
+	create_cells(input)
+	draw(cells)
+	while not is_solved(cells):
+		basic()
+		draw(cells)
+	print('solved')
+
+if __name__=='__main__':
+	main()	
 		
