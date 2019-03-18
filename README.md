@@ -1,23 +1,36 @@
 Intuitive Sudoku solver in Python 3.7
 
 <h1>Terminology</h1>
+
+sudoku: a well-made sudoku should have a unique answer, although this akgorithm can find one answer among many
+
 counting: iterating through the cells in the sudoku, left to right then top to bottom.
 
 propagating: 
 
-cell: a cell in the sudoku grid, can have a value from 1-9 or no value, represented by a value of 0
+cell: a square in the sudoku grid, can have a value from 1-9 or no value, represented by a 0
 
 box: a 3x3 subgrid of the sudoku. There are 9 boxes; tl (top left), tm, tr, ml (middle left), mm, mr, bl (bottom left), bm, br.
 
+fill: an empty cell can be filled by determining its value (the only value it could take without breaking the sudoku) to become a solved cell. A given cell is already filled.
+
 given: a cell that was given a value from the initial input matrix
+
+empty: a cell that had no value in the input matrix (represented by the integer 0), and that has not yet been filled.
+
+solved: a solved sudoku has all 81 of its cells filled such that the sudoku is valid
 
 candidates: list of possible values for each cell, i.e values that cell could become without breaking the sudoku.
 For given cells, it is an array containing one item, that cell's value. For empty cells, it is initialized to a list of digits 1-9.
 
 <h1>Program Structure</h1>
 
-The sudoku is represented by a 2 dimensional array.
-The cells in the sudoku are represented by Cell objects. There are 81 instances stored in an sudoku matrix (see above).
+The program takes an input matrix representing a sudoku the user wnats to solve. It has the same shape as the sudoku variable (see below), although it stores simple integers instead of objects.
+
+The sudoku is stored in a 2 dimensional array of 9 rows, each with 9 items (9x9=81 total items). It is initially an empty array, then the sudoku is built by create_sudoku(). This function counts through the input matrix and creates a Cell object from each input cell (regardless of whether a given or empty cell). 
+
+The cells in the sudoku are represented by Cell objects. There are 81 instances stored in a sudoku matrix (see above).
+
 Each cell has 5 attributes:
 1. A value, either a digit from 1-9, or 0 to represent that the cell is empty
 2. An array of candidates, either containing one item, the cell's value, or initialized to an array of digits for empty cells
