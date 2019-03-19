@@ -1,4 +1,4 @@
-Intuitive Sudoku solver in Python 3.7
+Intuitive 9x9 Sudoku solver in Python 3.7
 
 <h1>Terminology</h1>
 
