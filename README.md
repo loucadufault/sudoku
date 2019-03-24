@@ -31,15 +31,27 @@ For given cells, it is an array containing one item, that cell's value. For empt
 
 <h1>Data Structures</h1>
 
-`input` is a matrix that holds 81 integer values representing the values of each cell in the sudoku that we are trying to solve. It has 9 nested arrays, each with 9 items, making it a 9x9 matrix. Each item's position correpsonds directly to a cell in the sudoku to solve; for example, the item in the first nested array (`input[0]`) at index 4 (`input[0][4]`) holds the value of the cell in the first row and the 5th position (arrays start at 0) in the sudoku to solve. If a item in the input matrix has value 1-9, it means the cell in the sudoku to solve had a given value. If the item has value 0, it means the cell in the sudoku to solve was empty. Currently the input matrix must be manually edited within the source code but there is work to facilatate this process with alternate input methods.
+<h3>input</h3>
 
-`sudoku` is a matrix of the same exact shape as the `input` matrix above.
+`input` is initialized to a global matrix that holds 81 integer values representing the values of each cell in the sudoku that we are trying to solve. It has 9 nested arrays, each with 9 items, making it a 9x9 matrix. 
 
-The program takes an input matrix representing a sudoku the user wnats to solve. It has the same shape as the sudoku variable (see below), although it stores simple integers instead of objects.
+Each item's position correpsonds directly to a cell in the sudoku to solve; for example, the item in the first nested array (`input[0]`) at index 4 (`input[0][4]`) holds the value of the cell in the first row and the 5th position (arrays start at 0) in the sudoku to solve. 
 
-The sudoku is stored in a 2 dimensional array of 9 rows, each with 9 items (9x9=81 total items). It is initially an empty array, then the sudoku is built by create_sudoku(). This function counts through the input matrix and creates a Cell object from each input cell (regardless of whether a given or empty cell). 
+If a item in the input matrix has value 1-9, it means the cell in the sudoku to solve had a given value. If the item has value 0, it means the cell in the sudoku to solve was empty. 
 
-<h1>Cell Object</h1>
+Currently the input matrix must be manually edited within the source code but there is work to facilatate this process with alternate input methods.
+
+<h3>sudoku</h3>
+
+`sudoku` is a matrix of the same exact shape as the `input` matrix above, i.e. it has 9 nested arrays, each with 9 items, making it a 9x9 matrix. 
+
+The only difference, is that instead of holding 81 integer values, it holds 81 `Cell` objects. Each item with integer value in the `input` matrix is used to create a `Cell` object, which is then stored in the exact same position in the `sudoku` matrix. 
+
+`sudoku` is initialized to an empty global array, then built from the `input` matrix by the function `create_sudoku()`, which counts through each item in the `input` matrix and constructs a `Cell` object from that integer value (reagrdless of whether it is 1-9, or 0), which it then places at the same row and column position in the `sudoku` matrix.
+
+For example, assuming the item at position `input[0][4]` in the `input` matrix was a given cell in the sudoku to solve, with a certain value say 7, then we could `assert(input[0][4] == sudoku[0][4].value)`. The item at a given position in the `input` matrix would be storing the same integer as what was held in the `value` attribute of the `Cell` object at the same given position in the `sudoku` matrix. 
+
+<h3>Cell Object</h3>
 
 The cells in the sudoku are represented by Cell objects. There are 81 instances stored in a sudoku matrix (see above).
 
