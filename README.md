@@ -49,13 +49,15 @@ The only difference, is that instead of holding 81 integer values, it holds 81 `
 
 `sudoku` is initialized to an empty global array, then built from the `input` matrix by the function `create_sudoku()`, which counts through each item in the `input` matrix and constructs a `Cell` object from that integer value (reagrdless of whether it is 1-9, or 0), which it then places at the same row and column position in the `sudoku` matrix.
 
-For example, assuming the item at position `input[0][4]` in the `input` matrix was a given cell in the sudoku to solve, with a certain value say 7, then we could `assert(input[0][4] == sudoku[0][4].value)`. The item at a given position in the `input` matrix would be storing the same integer as what was held in the `value` attribute of the `Cell` object at the same given position in the `sudoku` matrix. 
+For example, assuming the item at position say `input[0][4]` in the `input` matrix was a given cell in the sudoku to solve, with a certain value say 7, then we could `assert(input[0][4] == sudoku[0][4].value)`. The item at a given position in the `input` matrix would be storing the same integer as what was held in the `value` attribute of the `Cell` object at the same given position in the `sudoku` matrix. 
 
-<h3>Cell Object</h3>
+<h3>Cell</h3>
 
-The cells in the sudoku are represented by Cell objects. There are 81 instances stored in a sudoku matrix (see above).
+The items representing cells in the `sudoku` matrix are instances of a `Cell` class. There are 81 instances stored in a `sudoku` matrix.
 
-Each cell has 5 attributes:
+
+
+The `Cell` class constructor sets 5 attributes:
 1. A value, either a digit from 1-9, or 0 to represent that the cell is empty
 2. An array of candidates, either containing one item, the cell's value, or initialized to an array of digits for empty cells
 3. A column, representing the cell's column in the sudoku matrix (i.e. its index in one of the nested row arrays in the sudoku)
@@ -63,6 +65,8 @@ Each cell has 5 attributes:
 5. A box, representing the cell's box in the sudoku matrix. (i.e. the string corresponding to the name of the box , see Terminology>box)
 
 Note, although each cell has a unique column-row pair, for each of the 9 boxes, 9 cells share the same box.
+
+explain logic in constructor
 
 <h1>Algorithms</h1>
 
