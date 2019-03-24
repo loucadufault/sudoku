@@ -8,7 +8,7 @@ All code for the sudoku solver is currently in a single `sudoku.py` file. It wil
 3. `utils.py`, containing all helper functions that display UI, take input, ensure proper functioning of the main loop, or keep track of execution metrics.
 4. `sudoku.py`, containing the code for building the sudoku, running the main solving loop, and displaying the interface.
 
-All documentation for this repository is written in this `README.md`.
+All documentation for this repository is written in this `README.md` file.
 
 <h1>Terminology</h1>
 
@@ -51,30 +51,35 @@ The only difference, is that instead of holding 81 integer values, it holds 81 `
 
 `sudoku` is initialized to an empty global array, then built from the `input` matrix by the function `create_sudoku()`, which counts through each item in the `input` matrix and constructs a `Cell` object from that integer value (reagrdless of whether it is 1-9, or 0), which it then places at the same row and column position in the `sudoku` matrix.
 
-For example, assuming the item at position say `input[0][4]` in the `input` matrix was a given cell in the sudoku to solve, with a certain value say 7, then we could `assert(input[0][4] == sudoku[0][4].value)`. The item at a given position in the `input` matrix would be storing the same integer as what was held in the `value` attribute of the `Cell` object at the same given position in the `sudoku` matrix. 
+For example, assuming the item at position say `input[0][4]` in the `input` matrix was a given cell in the sudoku to solve, with a certain value say 7, then we could `assert(input[0][4] == sudoku[0][4].value)`. The item at a given position in the `input` matrix would be storing the same integer as what is held in the `value` attribute of the `Cell` object at the same given position in the `sudoku` matrix. 
 
 <h3>Cell</h3>
 
-The items representing cells in the `sudoku` matrix are instances of a `Cell` class. There are 81 instances stored in a `sudoku` matrix.
+The `Cell` class provides an intuitive OOP representation of a real-world sudoku cell. 
 
-
+Every sudoku puzzle has 9x9 = 81 cells. Each of these cells represents a certain number value (or lack thereof if the cell is blank) found at a certain row and column position in the sudoku. Each cell's position in the grid dictates its belonging to 1 of the 9 boxes of the sudoku. Finally, when solving the sudoku, one might find themselves scribbling a cell's remaining possible values, or candidates, in the square's margin. 
 
 The `Cell` class constructor sets 5 attributes:
-1. A value, either a digit from 1-9, or 0 to represent that the cell is empty
-2. An array of candidates, either containing one item, the cell's value, or initialized to an array of digits for empty cells
-3. A column, representing the cell's column in the sudoku matrix (i.e. its index in one of the nested row arrays in the sudoku)
-4. A row, representing the cell's row in the sudoku matrix (i.e. the index of of its nested row array in the sudoku)
-5. A box, representing the cell's box in the sudoku matrix. (i.e. the string corresponding to the name of the box)
+1. `value`, either a digit from 1-9, or 0 to represent that the cell is empty
+2. `candidates`, an array either containing one item, the cell's value, or initialized to an array of digits for empty cells
+3. `col`, representing the cell's column in the sudoku matrix (i.e. its index in one of the nested row arrays in the sudoku)
+4. `row`, representing the cell's row in the sudoku matrix (i.e. the index of of its nested row array in the sudoku)
+5. `box`, representing the cell's box in the sudoku matrix. (i.e. the string corresponding to the name of the box)
 
-Note, although each cell has a unique column-row pair, for each of the 9 boxes, 9 cells share the same box.
+Remarks:
+- For each of the 9 `row` values (from 0-8), 9 `Cell` instances share that same `row` value, but among those 9, all have unique `col` values.
+- For each of the 9 `col` values (from 0-8), 9 `Cell` instances share that same `col` value, but among those 9, all have unique `row` values.
+- No `Cell` instances have the same values for both the `row` and `col` attributes.
+- Although each cell has a unique column-row pair, for each of the 9 boxes, 9 cells share the same box.
+-
 
 explain logic in constructor
 
+explain utility methods and solving algorithm methods (explain later)
 
 <h1>Solving</h1>
-1. Build `sudoku`
-2. Start counting through each item in the `sudoku` matrix, stopping at the first empty cell.
-3. 
+
+Before employing the 3 solving algorithms below, the program will first build the `sudoku` matrix containing the 81 `Cell` instances, by calling `create_sudoku()` on the `input` matrix, then `draw()` the initial sudoku. 
 
 <h1>Algorithms</h1>
 
