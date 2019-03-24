@@ -1,12 +1,14 @@
 Intuitive 9x9 Sudoku solver in Python 3.7
 
-<h1>Program Structure</h1>
+<h1>Repository Structure</h1>
 
 All code for the sudoku solver is currently in a single `sudoku.py` file. It will eventually be broken up into:
 1. `cell.py`, containing the code for the Cell class.
 2. `algorithms.py`, containing the code for all 3 solving algorithms.
 3. `utils.py`, containing all helper functions that display UI, take input, ensure proper functioning of the main loop, or keep track of execution metrics.
 4. `sudoku.py`, containing the code for building the sudoku, running the main solving loop, and displaying the interface.
+
+All documentation for this repository is written in this `README.md`.
 
 <h1>Terminology</h1>
 
@@ -33,9 +35,9 @@ For given cells, it is an array containing one item, that cell's value. For empt
 
 <h3>input</h3>
 
-`input` is initialized to a global matrix that holds 81 integer values representing the values of each cell in the sudoku that we are trying to solve. It has 9 nested arrays, each with 9 items, making it a 9x9 matrix. 
+`input` is initialized to a global matrix that holds 81 integer values representing the values of each cell in the sudoku that we are trying to solve. It has 9 nested arrays (one for each row), each with 9 items (one for each column in the row), making it a 9x9 matrix. 
 
-Each item's position correpsonds directly to a cell in the sudoku to solve; for example, the item in the first nested array (`input[0]`) at index 4 (`input[0][4]`) holds the value of the cell in the first row and the 5th position (arrays start at 0) in the sudoku to solve. 
+Each item's position corresponds directly to a cell in the sudoku to solve; for example, the item in the first nested array (`input[0]`) at index 4 (`input[0][4]`) holds the value of the cell in the first row and the 5th position (arrays start at 0) in the sudoku to solve. 
 
 If a item in the input matrix has value 1-9, it means the cell in the sudoku to solve had a given value. If the item has value 0, it means the cell in the sudoku to solve was empty. 
 
@@ -45,7 +47,7 @@ Currently the input matrix must be manually edited within the source code but th
 
 `sudoku` is a matrix of the same exact shape as the `input` matrix above, i.e. it has 9 nested arrays, each with 9 items, making it a 9x9 matrix. 
 
-The only difference, is that instead of holding 81 integer values, it holds 81 `Cell` objects. Each item with integer value in the `input` matrix is used to create a `Cell` object, which is then stored in the exact same position in the `sudoku` matrix. 
+The only difference, is that instead of holding 81 integer values, it holds 81 `Cell` objects. Each item with integer value in the `input` matrix is used to create a `Cell` instance, which is then stored in the exact same position in the `sudoku` matrix. 
 
 `sudoku` is initialized to an empty global array, then built from the `input` matrix by the function `create_sudoku()`, which counts through each item in the `input` matrix and constructs a `Cell` object from that integer value (reagrdless of whether it is 1-9, or 0), which it then places at the same row and column position in the `sudoku` matrix.
 
@@ -62,11 +64,17 @@ The `Cell` class constructor sets 5 attributes:
 2. An array of candidates, either containing one item, the cell's value, or initialized to an array of digits for empty cells
 3. A column, representing the cell's column in the sudoku matrix (i.e. its index in one of the nested row arrays in the sudoku)
 4. A row, representing the cell's row in the sudoku matrix (i.e. the index of of its nested row array in the sudoku)
-5. A box, representing the cell's box in the sudoku matrix. (i.e. the string corresponding to the name of the box , see Terminology>box)
+5. A box, representing the cell's box in the sudoku matrix. (i.e. the string corresponding to the name of the box)
 
 Note, although each cell has a unique column-row pair, for each of the 9 boxes, 9 cells share the same box.
 
 explain logic in constructor
+
+
+<h1>Solving</h1>
+1. Build `sudoku`
+2. Start counting through each item in the `sudoku` matrix, stopping at the first empty cell.
+3. 
 
 <h1>Algorithms</h1>
 
