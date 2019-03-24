@@ -1,12 +1,18 @@
 Intuitive 9x9 Sudoku solver in Python 3.7
 
+<h1>Program Structure</h1>
+
+All code for the sudoku solver is currently in a single `sudoku.py` file. It will eventually be broken up into:
+1. `cell.py`, containing the code for the Cell class.
+2. `algorithms.py`, containing the code for all 3 solving algorithms.
+3. `utils.py`, containing all helper functions that display UI, take input, ensure proper functioning of the main loop, or keep track of execution metrics.
+4. `sudoku.py`, containing the code for building the sudoku, running the main solving loop, and displaying the interface.
+
 <h1>Terminology</h1>
 
 sudoku: a well-made sudoku should have a unique answer, although this akgorithm can find one answer among many
 
-counting: iterating through the cells in the sudoku, left to right then top to bottom.
-
-propagating: 
+counting: iterating through the cells in the sudoku, starting at the top row and ending at the bottom row, starting at the leftmost cell and ending at the rightmost cell for each row.
 
 cell: a square in the sudoku grid, can have a value from 1-9 or no value, represented by a 0
 
@@ -23,11 +29,17 @@ solved: a solved sudoku has all 81 of its cells filled such that the sudoku is v
 candidates: list of possible values for each cell, i.e values that cell could become without breaking the sudoku.
 For given cells, it is an array containing one item, that cell's value. For empty cells, it is initialized to a list of digits 1-9.
 
-<h1>Program Structure</h1>
+<h1>Data Structures</h1>
+
+`input` is a matrix that holds 81 integer values representing the values of each cell in the sudoku that we are trying to solve. It has 9 nested arrays, each with 9 items, making it a 9x9 matrix. Each item's position correpsonds directly to a cell in the sudoku to solve; for example, the item in the first nested array (`input[0]`) at index 4 (`input[0][4]`) holds the value of the cell in the first row and the 5th position (arrays start at 0) in the sudoku to solve. If a item in the input matrix has value 1-9, it means the cell in the sudoku to solve had a given value. If the item has value 0, it means the cell in the sudoku to solve was empty. Currently the input matrix must be manually edited within the source code but there is work to facilatate this process with alternate input methods.
+
+`sudoku` is a matrix of the same exact shape as the `input` matrix above.
 
 The program takes an input matrix representing a sudoku the user wnats to solve. It has the same shape as the sudoku variable (see below), although it stores simple integers instead of objects.
 
 The sudoku is stored in a 2 dimensional array of 9 rows, each with 9 items (9x9=81 total items). It is initially an empty array, then the sudoku is built by create_sudoku(). This function counts through the input matrix and creates a Cell object from each input cell (regardless of whether a given or empty cell). 
+
+<h1>Cell Object</h1>
 
 The cells in the sudoku are represented by Cell objects. There are 81 instances stored in a sudoku matrix (see above).
 
@@ -40,9 +52,15 @@ Each cell has 5 attributes:
 
 Note, although each cell has a unique column-row pair, for each of the 9 boxes, 9 cells share the same box.
 
-<h1>Algorithm</h1>
+<h1>Algorithms</h1>
+
+<h2>Counting Elimination</h2>
 
 0: Build the sudoku from an 9x9 input matrix containing either numbers from 1-9, or a 0 if the cell is empty. 
 The sudoku is represented by a 9x9 matrix containing Cell objects. in the same arrangement as the input.
 Each cell has a value (1-9 or 0 if the input cell was empty), a list of candidates (initialized as an array of all digits from 1-9, or the cell's value if the input cell was a given)
 1: Iterate through the cells in
+
+<h2>Recursive Constraint Propagation </h2>
+
+<h2>Guess Bactracking</h2>
